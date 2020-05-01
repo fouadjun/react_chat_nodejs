@@ -53,6 +53,15 @@ exports.loginUser = function (requestBody) {
     });
 };
 
+exports.checkAuth = async function (token) {
+    return AuthToken.findOne({token: token}).populate('user').exec()
+        .then(token => {
+            console.log(token.user);
+            Promise.resolve(token.user);
+        })
+        .catch(err => Promise.reject(err));
+};
+
 const generateToken = function (user) {
     return new Promise((resolve, reject) => {
         const token = new AuthToken({

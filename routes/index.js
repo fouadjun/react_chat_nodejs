@@ -12,7 +12,6 @@ router.get('/', function(req, res, next) {
 router.post('/auth/login', async function (request, response) {
     await loginUser(request.body)
         .then(function (userToken) {
-            console.log('iamhere');
             response.json(userToken).status(200);
         })
         .catch((err) => {
