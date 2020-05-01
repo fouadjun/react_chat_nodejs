@@ -1,4 +1,5 @@
 const User = require('./../models/user');
+const ContactDTO = require('./../dto/contact');
 
 exports.Contacts = {
     getAll: function () {
@@ -6,15 +7,20 @@ exports.Contacts = {
             User.find({}).exec()
                 .then(users => {
                     let user_list = users.map(item => {
-                        return {
-                            id: item._id,
-                            name: item.name,
-                            username: item.username
-                        }
+                        return new ContactDTO(item._id, item.username, item.name);
                     });
                     resolve(user_list);
                 })
                 .catch(err => reject(err));
         })
+    },
+    getOne: function (id) {
+        return new Promise((resolve, reject) => {
+            User.findById(id).exec()
+                .then(item => {
+                    resolve(new ContactDTO(item._id, item.username, item.name));
+                })
+                .catch(err => reject(err));
+        });
     }
 };

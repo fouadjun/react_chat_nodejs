@@ -23,17 +23,32 @@ const notAuthenticatedMessage = (res) => {
   }).status(403);
 };
 
+const defaultErrorMessage = (res, err = null) => {
+    res.json({
+        message: 'Something went wrong',
+        error: err
+    }).status(401);
+};
+
 /* GET contacts listing. */
-router.get('/', async function(req, res) {
+router.get('/', function(req, res) {
     Contacts.getAll()
         .then(contacts => {
             console.log(contacts);
             res.json(contacts).status(200);
         })
         .catch(err => {
-            res.json({
-                message: 'Something went wrong'
-            }).status(401);
+            defaultErrorMessage(res, err);
+        });
+});
+
+router.get('/:id', function (req, res) {
+    Contacts.getOne(req.params.id)
+        .then(contact => {
+            res.json(contact).status(200);
+        })
+        .catch(err => {
+            defaultErrorMessage(res, err);
         });
 });
 
