@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('./../models/user');
+const { registerUser, loginUser } = require('./../services/auth');
 
 
 /* GET home page. */
@@ -8,37 +9,25 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/auth/login', function (request, response) {
-
+router.post('/auth/login', async function (request, response) {
+    await loginUser(request.body)
+        .then(function (userToken) {
+            console.log('iamhere');
+            response.json(userToken).status(200);
+        })
+        .catch((err) => {
+            response.json(err).status(401);
+        });
 });
 
 router.post('/auth/register', async function (request, response) {
-  try {
-    const user = new User({
-      name: request.body.name,
-      username: request.body.username,
-      password: request.body.password
-    });
-
-    await user.save(function (err, user) {
-      if (err) {
-        response.status(402);
-        response.json({
-          'status': 'ERROR',
-          'message': err
-        });
-      }
-
-      response.status(201);
-      response.json(user);
-    });
-
-
-  } catch (e) {
-    response.status(409);
-    response.send(e);
-  }
-
+  await registerUser(request.body)
+      .then(function (userToken) {
+        response.json(userToken).status(201);
+      })
+      .catch((err) => {
+        response.json(err).status(401);
+      });
 });
 
 module.exports = router;

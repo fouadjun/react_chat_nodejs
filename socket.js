@@ -6,6 +6,7 @@ const socket = (server) => {
     io.use(function (socket, next) {
         console.log('socket is connected', socket.handshake.query.auth_token);
 
+
         next();
     });
 
