@@ -10,7 +10,7 @@ const authToken = new Schema({
         type: Schema.Types.Date,
         required: false
     },
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'user'

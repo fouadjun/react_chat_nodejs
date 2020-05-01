@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const { checkAuth } = require('./../services/auth');
+const { Contacts } = require('../services/util');
 
 router.use(function (req, res, next) {
   let authToken = req.header('Authorization');
   if (authToken) {
     authToken = authToken.slice(7);
     checkAuth(authToken)
-        .then(r => {
+        .then(() => {
           next();
         })
         .catch(err => {
@@ -23,8 +24,17 @@ const notAuthenticatedMessage = (res) => {
 };
 
 /* GET contacts listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/', async function(req, res) {
+    Contacts.getAll()
+        .then(contacts => {
+            console.log(contacts);
+            res.json(contacts).status(200);
+        })
+        .catch(err => {
+            res.json({
+                message: 'Something went wrong'
+            }).status(401);
+        });
 });
 
 module.exports = router;
