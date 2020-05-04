@@ -8,7 +8,12 @@ const connectUrl = `mongodb+srv://${username}:${password}@reactchat-glxdt.mongod
 const db = async (callback) => {
     try {
         console.log('Connecting to db...');
-        await mongoose.connect(connectUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+        await mongoose.connect(connectUrl, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+            useFindAndModify: false
+        });
 
         callback();
     } catch (e) {

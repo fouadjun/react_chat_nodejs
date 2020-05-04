@@ -13,7 +13,7 @@ exports.registerUser = function(requestBody) {
             user.save()
                 .then(function(user) {
                     const token = new AuthToken({
-                        userId: user._id
+                        user: user._id
                     });
 
                     token.save()

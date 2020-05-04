@@ -3,11 +3,11 @@ Simple whatsapp like socket chat
 
 ### Endpoints
 1. /contacts - not finished
-	- get one Contact - [GET] /{id}
-	- get All Contacts - [GET] /
-	- store Contact - [POST] / - ({name, surname})
-	- update Contact - [PUT] /{id} - ({name, surname})
-	- delete(id)
+	- get one Contact - [GET] /{id} - DONE
+	- get All Contacts - [GET] / - DONE
+	- store Contact - [POST] / - ({name, surname}) - DONE HALF
+	- update Contact - [PUT] /{id} - ({name, surname}) - DONE
+	- delete(id) - 
 2. /settings - not started
 	- get()
 	- put({})

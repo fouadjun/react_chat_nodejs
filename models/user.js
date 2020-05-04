@@ -1,4 +1,5 @@
 const {Schema, model} = require('mongoose');
+const AuthToken = require('./auth_token');
 const bcrypt = require('bcrypt');
 
 const SALT_WORK_FACTOR = 10;
@@ -22,7 +23,25 @@ const user = new Schema({
     timestamps: true
 });
 
-user.pre('save', function (next) {
+user.pre('save', hook);
+
+user.pre('update', hook);
+
+user.pre('remove', function (next) {
+
+    console.log('deleting constrains...');
+    AuthToken.deleteMany({ user: this._id }).exec();
+    next();
+});
+
+user.methods.comparePassword = function(candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) return cb(err);
+        cb(null, isMatch);
+    });
+};
+
+function hook(next) {
     let user = this;
     // only hash the password if it has been modified (or is new)
     if (!user.isModified('password')) return next();
@@ -40,13 +59,6 @@ user.pre('save', function (next) {
             next();
         });
     });
-});
-
-user.methods.comparePassword = function(candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) return cb(err);
-        cb(null, isMatch);
-    });
-};
+}
 
 module.exports = model('user', user);
