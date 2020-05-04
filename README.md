@@ -7,7 +7,7 @@ Simple whatsapp like socket chat
 	- get All Contacts - [GET] / - DONE
 	- store Contact - [POST] / - ({name, surname}) - DONE HALF
 	- update Contact - [PUT] /{id} - ({name, surname}) - DONE
-	- delete(id) - 
+	- delete(id) - DONE
 2. /settings - not started
 	- get()
 	- put({})
