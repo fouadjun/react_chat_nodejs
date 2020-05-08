@@ -9,4 +9,4 @@ services:
     volumes:
       - .:/home/node/app
       - ./node_modules:/home/node/app/node_modules
-    command: node bin/www
+    ##command: node bin/www
