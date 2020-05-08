@@ -1,12 +1,20 @@
-FROM node:alpine
+# The instructions for the first stage
+FROM node:10-alpine as builder
 
-RUN apk --no-cache add --virtual native-deps \
-  g++ gcc libgcc libstdc++ linux-headers autoconf automake make nasm python git && \
-  npm install --quiet node-gyp -g
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
 
-RUN mkdir -p /usr/src/app
+RUN apk --no-cache add python make g++
+
+COPY package*.json ./
+RUN npm install
+
+# The instructions for second stage
+FROM node:10-alpine
+
 WORKDIR /usr/src/app
-COPY package.json /usr/src/app/
-COPY . /usr/src/app
+COPY --from=builder node_modules node_modules
 
-EXPOSE 3000
+COPY . .
+
+#CMD [ "npm", “run”, "start:prod" ]
