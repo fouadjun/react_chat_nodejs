@@ -6,5 +6,4 @@ services:
       - "8090:3000"
     working_dir: /home/node/app
     volumes:
-      - ./:/home/node/app
-    restart: always
+      - .:/home/node/app
