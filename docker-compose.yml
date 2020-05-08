@@ -7,5 +7,4 @@ services:
     working_dir: /home/node/app
     volumes:
       - ./:/home/node/app
-    command: "npm install && node bin/www"
     restart: always
