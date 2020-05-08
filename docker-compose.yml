@@ -9,4 +9,4 @@ services:
     volumes:
       - .:/home/node/app
       - /home/node/app/node_modules
-    command: "npm install && node bin/www"
+    command: "npm install"
