@@ -1,7 +1,8 @@
 version: '3'
 services:
   web:
-    image: node:latest
+    build:
+      .
     ports:
       - "8090:3000"
     working_dir: /home/node/app
