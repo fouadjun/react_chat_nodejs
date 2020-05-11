@@ -5,8 +5,9 @@ services:
       .
     ports:
       - "8090:3000"
+    environment:
+      - NODE_ENV=production
     working_dir: /home/node/app
     volumes:
       - .:/home/node/app
-      - ./node_modules:/home/node/app/node_modules
-    ##command: node bin/www
+    command: "node bin/www"
