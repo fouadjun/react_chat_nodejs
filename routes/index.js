@@ -11,20 +11,20 @@ router.get('/', function(req, res, next) {
 router.post('/auth/login', async function (request, response) {
     await loginUser(request.body)
         .then(function (userToken) {
-            response.json(userToken).status(200);
+            response.status(200).json(userToken);
         })
         .catch((err) => {
-            response.json(err).status(401);
+            response.status(401).json(err);
         });
 });
 
 router.post('/auth/register', async function (request, response) {
   await registerUser(request.body)
       .then(function (userToken) {
-        response.json(userToken).status(201);
+        response.status(201).json(userToken);
       })
       .catch((err) => {
-        response.json(err).status(401);
+        response.status(401).json(err);
       });
 });
 

@@ -18,23 +18,25 @@ router.use(function (req, res, next) {
 });
 
 const notAuthenticatedMessage = (res) => {
-  res.json({
-    message: 'not authenticated.'
-  }).status(401);
+  res.status(401)
+      .json({
+          message: 'not authenticated.'
+      });
 };
 
 const defaultErrorMessage = ({message = 'Something went wrong', res, err = null, status = 400}) => {
-    res.json({
+    res.status(status)
+        .json({
         message: message,
         error: err
-    }).status(status);
+    });
 };
 
 /* GET contacts listing. */
 router.get('/', function(req, res) {
     Contacts.getAll()
         .then(contacts => {
-            res.json(contacts).status(200);
+            res.status(200).json(contacts);
         })
         .catch(err => {
             defaultErrorMessage({
@@ -48,7 +50,7 @@ router.get('/', function(req, res) {
 router.get('/:id', function (req, res) {
     Contacts.getOne(req.params.id)
         .then(contact => {
-            res.json(contact).status(200);
+            res.status(200).json(contact);
         })
         .catch(err => {
             defaultErrorMessage({
@@ -69,7 +71,7 @@ router.put('/:id', function (req, res) {
 
     Contacts.updateOne(req.params.id, updateData)
         .then(contact => {
-            res.json(contact).status(200);
+            res.status(200).json(contact);
         })
         .catch(err => {
             defaultErrorMessage({
@@ -84,7 +86,7 @@ router.put('/:id', function (req, res) {
 router.delete('/:id', function (req, res) {
     Contacts.deleteOne(req.params.id)
         .then(() => {
-            res.json().status(410);
+            res.status(410).json();
         })
         .catch(err => {
             defaultErrorMessage({
