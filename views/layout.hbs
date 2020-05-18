@@ -13,7 +13,7 @@
     <script>
         let socket = io('/', {
             query: {
-                auth_token: 'tokensdadSKksdsn'
+                auth_token: 'eac8340a-7660-4459-90c6-7ab6f4a430fc'
             }
         });
         socket.on('connect', function(){
@@ -26,13 +26,13 @@
             console.log("disconnect");
         });
 
-        socket.on('helloBro', function (data) {
+        socket.on('receive', function (data) {
             console.log(data);
         })
 
         document.getElementById('btn').addEventListener('click', function () {
             console.log('Send');
-            socket.emit('send', { user_id: '32324sfsd', message: 'Hellosd!'});
+            socket.emit('send', { to_user: '5ec2729df3b3bd24d73212cc', message: 'Hellosd!'});
         });
     </script>
   </body>

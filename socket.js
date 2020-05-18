@@ -1,5 +1,6 @@
 const socket_io = require('socket.io');
 const Auth = require('./services/auth');
+const {sendMessage} = require('./services/messaging');
 
 const socket = (server) => {
     const io = socket_io(server);
@@ -8,8 +9,9 @@ const socket = (server) => {
     io.use(function (socket, next) {
         console.log('socket is connected');
 
-        Auth.checkAuth(socket.handshake.query.auth_token).then(r => {
-            sockets[socket.id] = socket;
+        Auth.checkAuth(socket.handshake.query.auth_token).then(user => {
+            //console.log({socket, user});
+            sockets[socket.id] = {socket, user};
             next();
         }).catch(() => {
             socket.disconnect();
@@ -19,10 +21,12 @@ const socket = (server) => {
     io.on('connection', function(socket) {
         console.log('new connection!', socket.id);
 
-        //socket.emit("helloBro", {data: { name: 'Fuad' }});
+        socket.on('send', (data) => {
+            //console.log(sockets[socket.id]);
+            sendMessage(sockets[socket.id].user, data.to_user, data.message);
 
-        socket.on('send', function (socket) {
-            console.log(socket);
+            let checkUser = sockets[data.to_user];
+            if (checkUser) checkUser.socket.emit('receive', {from_user: sockets[socket.id].user, message: data.message});
         })
 
     });
