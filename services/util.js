@@ -30,7 +30,6 @@ exports.Contacts = {
                 .then(item => {
                     item.name = data.name;
                     item.username = data.username;
-                    item.password = data.password;
 
                     item.save(function (err) {
                         if (err) reject(err);

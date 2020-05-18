@@ -65,8 +65,7 @@ router.get('/:id', function (req, res) {
 router.put('/:id', function (req, res) {
     const updateData = {
         name: req.body.name,
-        username: req.body.username,
-        password: req.body.password
+        username: req.body.username
     };
 
     Contacts.updateOne(req.params.id, updateData)
