@@ -86,7 +86,7 @@ router.put('/:id', function (req, res) {
 router.delete('/:id', function (req, res) {
     Contacts.deleteOne(req.params.id)
         .then(() => {
-            res.status(410).json();
+            res.status(204).json();
         })
         .catch(err => {
             defaultErrorMessage({
