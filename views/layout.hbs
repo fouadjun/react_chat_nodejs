@@ -7,6 +7,8 @@
   <body>
     {{{body}}}
 
+    <button id="btn">Send</button>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
         let socket = io('/', {
@@ -27,6 +29,11 @@
         socket.on('helloBro', function (data) {
             console.log(data);
         })
+
+        document.getElementById('btn').addEventListener('click', function () {
+            console.log('Send');
+            socket.emit('send', { user_id: '32324sfsd', message: 'Hellosd!'});
+        });
     </script>
   </body>
 </html>
