@@ -11,7 +11,7 @@ const socket = (server) => {
 
         Auth.checkAuth(socket.handshake.query.auth_token).then(user => {
             //console.log({socket, user});
-            sockets[socket.id] = {socket, user};
+            sockets[user._id] = {socket, user};
             next();
         }).catch(() => {
             socket.disconnect();
@@ -19,11 +19,11 @@ const socket = (server) => {
     });
 
     io.on('connection', function(socket) {
-        console.log('new connection!', socket.id);
+        console.log('new connection!', socket.user._id);
 
         socket.on('send', (data) => {
             //console.log(sockets[socket.id]);
-            sendMessage(sockets[socket.id].user, data.to_user, data.message);
+            sendMessage(sockets[socket.user._id].user, data.to_user, data.message);
 
             let checkUser = sockets[data.to_user];
             if (checkUser) checkUser.socket.emit('receive', {from_user: sockets[socket.id].user, message: data.message});
