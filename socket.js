@@ -26,7 +26,7 @@ const socket = (server) => {
             sendMessage(sockets[socket.user._id].user, data.to_user, data.message);
 
             let checkUser = sockets[data.to_user];
-            if (checkUser) checkUser.socket.emit('receive', {from_user: sockets[socket.id].user, message: data.message});
+            if (checkUser) checkUser.socket.emit('receive', {from_user: socket.user._id, message: data.message});
         })
 
     });
