@@ -19,14 +19,14 @@ const socket = (server) => {
     });
 
     io.on('connection', function(socket) {
-        console.log('new connection!', socket.user._id);
+        console.log('new connection!', socket.id);
 
         socket.on('send', (data) => {
             //console.log(sockets[socket.id]);
-            sendMessage(sockets[socket.user._id].user, data.to_user, data.message);
+            sendMessage(data.from_user, data.to_user, data.message);
 
             let checkUser = sockets[data.to_user];
-            if (checkUser) checkUser.socket.emit('receive', {from_user: socket.user._id, message: data.message});
+            if (checkUser) checkUser.socket.emit('receive', {from_user: data.from_user, message: data.message});
         })
 
     });
