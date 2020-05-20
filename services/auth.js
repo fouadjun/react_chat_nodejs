@@ -83,6 +83,7 @@ const generateToken = function (user) {
 const mergedUserAndToken = function (user, token) {
     return {
         user: {
+            id: user._id,
             username: user.username,
             name: user.name
         },
